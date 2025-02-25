@@ -49,9 +49,7 @@
                   "$ref": "#/components/schemas/APIResponseCreateCallJobBatchResp"
                 },
                 "example": {
-                  "data": {
-                    "batch_id": "batch_123"
-                  },
+                  "data": {},
                   "status": "success",
                   "errorMessage": null
                 }
