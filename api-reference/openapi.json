@@ -1,194 +1,191 @@
 {
-  "openapi": "3.0.1",
+  "openapi": "3.0.3",
   "info": {
-    "title": "OpenAPI Plant Store",
-    "description": "A sample API that uses a plant store as an example to demonstrate features in the OpenAPI specification",
-    "license": {
-      "name": "MIT"
-    },
-    "version": "1.0.0"
+    "title": "OkRecall API",
+    "version": "1.0.0",
+    "description": "API for creating and retrieving call jobs."
   },
   "servers": [
     {
-      "url": "http://sandbox.mintlify.com"
-    }
-  ],
-  "security": [
-    {
-      "bearerAuth": []
+      "url": "https://prod.okrecall.ai"
     }
   ],
   "paths": {
-    "/plants": {
-      "get": {
-        "description": "Returns all plants from the system that the user has access to",
-        "parameters": [
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "The maximum number of results to return",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Plant response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Plant"
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        }
-      },
+    "/api/v1/tasks/workflow/batch": {
       "post": {
-        "description": "Creates a new plant in the store",
+        "summary": "Create a new call job batch",
+        "operationId": "createCallJobBatch",
         "requestBody": {
-          "description": "Plant to add to the store",
+          "description": "Request payload for creating a batch of call jobs.",
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/NewPlant"
+                "$ref": "#/components/schemas/CreateCallJobBatchReq"
+              },
+              "example": {
+                "workflow_id": "xxx",
+                "leads": [
+                  {
+                    "phone_number": "xxx",
+                    "country_code": "SG",
+                    "customer_id": "xxx",
+                    "customer_data": {
+                      "name": "John Doe",
+                      "email": "john.doe@example.com"
+                    }
+                  }
+                ]
               }
             }
-          },
-          "required": true
+          }
         },
         "responses": {
           "200": {
-            "description": "plant response",
+            "description": "Call job batch created successfully.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Plant"
+                  "$ref": "#/components/schemas/APIResponseCreateCallJobBatchResp"
+                },
+                "example": {
+                  "data": {
+                    "batch_id": "batch_123"
+                  },
+                  "status": "success",
+                  "errorMessage": null
                 }
               }
             }
           },
           "400": {
-            "description": "unexpected error",
+            "description": "Bad Request – e.g., invalid request format.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized – missing or invalid JWT token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error – something went wrong on the server.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
           }
-        }
-      }
-    },
-    "/plants/{id}": {
-      "delete": {
-        "description": "Deletes a single plant based on the ID supplied",
-        "parameters": [
+        },
+        "security": [
           {
-            "name": "id",
-            "in": "path",
-            "description": "ID of plant to delete",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
+            "BearerAuth": []
           }
-        ],
-        "responses": {
-          "204": {
-            "description": "Plant deleted",
-            "content": {}
-          },
-          "400": {
-            "description": "unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        }
+        ]
       }
     }
   },
   "components": {
-    "schemas": {
-      "Plant": {
-        "required": [
-          "name"
-        ],
-        "type": "object",
-        "properties": {
-          "name": {
-            "description": "The name of the plant",
-            "type": "string"
-          },
-          "tag": {
-            "description": "Tag to specify the type",
-            "type": "string"
-          }
-        }
-      },
-      "NewPlant": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/Plant"
-          },
-          {
-            "required": [
-              "id"
-            ],
-            "type": "object",
-            "properties": {
-              "id": {
-                "description": "Identification number of the plant",
-                "type": "integer",
-                "format": "int64"
-              }
-            }
-          }
-        ]
-      },
-      "Error": {
-        "required": [
-          "error",
-          "message"
-        ],
-        "type": "object",
-        "properties": {
-          "error": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "message": {
-            "type": "string"
-          }
-        }
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
       }
     },
-    "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer"
+    "schemas": {
+      "CreateCallJobBatchReq": {
+        "type": "object",
+        "required": ["workflow_id", "leads"],
+        "properties": {
+          "workflow_id": {
+            "type": "string",
+            "description": "Identifier for the call workflow."
+          },
+          "leads": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LeadInfo"
+            },
+            "description": "List of leads for the batch."
+          }
+        }
+      },
+      "LeadInfo": {
+        "type": "object",
+        "required": ["phone_number", "customer_id", "customer_data"],
+        "properties": {
+          "phone_number": {
+            "type": "string",
+            "description": "Phone number of the lead."
+          },
+          "country_code": {
+            "type": "string",
+            "description": "Country code of the lead."
+          },
+          "customer_id": {
+            "type": "string",
+            "description": "Your unique identifier for the customer."
+          },
+          "customer_data": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Arbitrary JSON object containing customer details."
+          }
+        }
+      },
+      "APIResponseCreateCallJobBatchResp": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "batch_id": {
+                "type": "string",
+                "description": "Identifier of the created call job batch."
+              }
+            }
+          },
+          "status": {
+            "type": "string",
+            "description": "Response status indicator.",
+            "example": "success"
+          },
+          "errorMessage": {
+            "type": "string",
+            "nullable": true,
+            "description": "Error message, if any."
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "string",
+            "nullable": true,
+            "description": "Typically null on errors."
+          },
+          "status": {
+            "type": "string",
+            "description": "Response status indicator."
+          },
+          "errorMessage": {
+            "type": "string",
+            "description": "Error message detailing the issue."
+          }
+        }
       }
     }
   }
