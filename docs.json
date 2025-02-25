@@ -1,71 +1,70 @@
 {
-  "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
-  "name": "Mint Starter Kit",
-  "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
-  },
-  "favicon": "/favicon.svg",
-  "navigation": {
-    "tabs": [
-      {
-        "tab": "Guides",
-        "groups": [
-          {
-            "group": "Get Started",
-            "pages": [
-              "introduction",
-              "quickstart",
-              "development"
-            ]
-          },
-        ]
-      },
-      {
-        "tab": "API Reference",
-        "groups": [
-          {
-            "group": "API Documentation",
-            "pages": [
-              "api-reference/introduction"
-            ]
-          },
-          {
-            "group": "Endpoint Examples",
-            "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete"
-            ]
-          }
-        ]
-      }
-    ],
-    "global": {
+    "$schema": "https://mintlify.com/docs.json",
+    "theme": "mint",
+    "name": "Mint Starter Kit",
+    "colors": {
+        "primary": "#16A34A",
+        "light": "#07C983",
+        "dark": "#15803D"
+    },
+    "favicon": "/favicon.svg",
+    "navigation": {
+        "tabs": [
+            {
+                "tab": "Guides",
+                "groups": [
+                    {
+                        "group": "Get Started",
+                        "pages": [
+                            "introduction",
+                            "quickstart",
+                            "development"
+                        ]
+                    }
+                ]
+            },
+            {
+                "tab": "API Reference",
+                "groups": [
+                    {
+                        "group": "API Documentation",
+                        "pages": [
+                            "api-reference/introduction"
+                        ]
+                    },
+                    {
+                        "group": "Endpoint Examples",
+                        "pages": [
+                            "api-reference/endpoint/get",
+                            "api-reference/endpoint/create",
+                            "api-reference/endpoint/delete"
+                        ]
+                    }
+                ]
+            }
+        ],
+        "global": {}
+    },
+    "logo": {
+        "light": "/logo.png",
+        "dark": "/logo.png"
+    },
+    "navbar": {
+        "links": [
+            {
+                "label": "Support",
+                "href": "mailto:hello@renderspace.co"
+            }
+        ],
+        "primary": {
+            "type": "button",
+            "label": "Dashboard",
+            "href": "https://dashboard.okrecall.ai"
+        }
+    },
+    "footer": {
+        "socials": {
+            "linkedin": "https://linkedin.com/company/okrecallai"
+        }
     }
-  },
-  "logo": {
-    "light": "/logo.png",
-    "dark": "/logo.png"
-  },
-  "navbar": {
-    "links": [
-      {
-        "label": "Support",
-        "href": "mailto:hello@renderspace.co"
-      }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.okrecall.ai"
-    }
-  },
-  "footer": {
-    "socials": {
-      "linkedin": "https://linkedin.com/company/okrecallai"
-    }
-  }
 }
