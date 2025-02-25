@@ -32,9 +32,10 @@
                     },
                     {
                         "group": "Endpoint Examples",
-                        "pages": [
-                            "api-reference/endpoint/create"
-                        ]
+                        "openapi": {
+                          "source": "/openapi.json",
+                          "directory": "api-reference"
+                        }
                     }
                 ]
             }
